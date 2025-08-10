@@ -650,6 +650,26 @@ window.addEventListener("load", sendHeight);
 window.addEventListener("resize", sendHeight);
 setInterval(sendHeight, 1000);
 </script>
+  <!-- Script pentru auto-rezizare iframe cu observer -->
+<script>
+function sendHeight() {
+  window.parent.postMessage(
+    { type: "resize-iframe", height: document.body.scrollHeight },
+    "*"
+  );
+}
+
+// trimitem periodic, în caz că observer-ul ratează ceva
+setInterval(sendHeight, 1000);
+
+// folosim un observer pentru schimbări în pagină
+const resizeObserver = new ResizeObserver(sendHeight);
+resizeObserver.observe(document.body);
+
+window.addEventListener("load", sendHeight);
+window.addEventListener("resize", sendHeight);
+</script>
+
 
 </body>
 </html>
